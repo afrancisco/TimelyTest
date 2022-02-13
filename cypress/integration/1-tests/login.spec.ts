@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 import * as config from "../3-fixtures/config"
-import { loginElements } from "../4-elements/loginElement"
+import { loginPage } from "../2-pages/loginPage"
+import { dashPage } from "../2-pages/dashPage"
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests
@@ -19,17 +20,17 @@ describe('validate Login', () => {
     })
 
     it('when fill required fields with valid login user', () => {
-      cy.get(loginElements.inputEmail()).type("sda");
-      cy.get(loginElements.inputPassword()).type("sda");
-
+      loginPage.fillLoginFields(config.USER, config.PASSWORD)
     })
 
     it('and subimit login', () => {
-      cy.get(loginElements.buttonLogin()).click();
+      loginPage.submitLogin()
+      cy.wait(5000)
+
     })
 
     it('then redirect login', () => {
-      expect("").to.be.empty
+      dashPage.checkPageLoad()
     })
 
   })
@@ -39,17 +40,16 @@ describe('validate Login', () => {
     })
 
     it('when fill required fields with valid login user', () => {
-      cy.get(loginElements.inputEmail()).type("sda");
-      cy.get(loginElements.inputPassword()).type("sda");
+      loginPage.fillLoginFields(config.PASSWORD, config.PASSWORD)
 
     })
 
     it('and subimit login', () => {
-      cy.get(loginElements.buttonLogin()).click();
+      loginPage.submitLogin()
     })
 
     it('then redirect login', () => {
-      expect("").to.be.empty
+     loginPage.validateRequiredFields("Email is required")
     })
 
   })
